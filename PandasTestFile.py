@@ -2,6 +2,8 @@ import pandas as pd
 import yfinance as yf
 import matplotlib.pyplot as mplt 
 
+
+
 cash = int(1000)
 profit = int(0)
 shares = int(0)
@@ -13,14 +15,14 @@ df["ma_50"] = df["Adj Close"].rolling(window=50).mean()
 
 df = df.dropna()
 
-'''Strat Function'''
+
 
 for i in range(len(df)-1):
     price = df["Adj Close"].iloc[i]
     
     if (price > df["ma_10"].iloc[i]) and (price > df["ma_50"].iloc[i]) and buy == False:
         buy = bool(True)
-        shares = cash / (df["Open"].iloc[i+1] * 1.001)   #This is for buying on next day to remove same day buying bias and the 0.001 percent increase is for trading tax
+        shares = cash / (df["Open"].iloc[i+1] * 1.001) #This is for buying on next day to remove same day buying bias and the 0.001 percent increase is for trading tax
         cash = int(0)
 
     elif (price < df["ma_10"].iloc[i]) and buy == True:
