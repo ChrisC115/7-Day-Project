@@ -2,19 +2,16 @@ import pandas as pd
 import yfinance as yf
 import matplotlib.pyplot as mplt 
 
-
-def Strategy() :
-    cash = int(1000)
+def Strategy(ticker) :
+    cash = float(1000)
     profit = int(0)
-    shares = int(0)
-    buy = bool(False)
-    df = yf.download("AAPL", period = "12mo", auto_adjust = False, multi_level_index= False)
+    shares = 0
+    buy = False
+    df = yf.download(ticker, period = "12mo", auto_adjust = False, multi_level_index= False)
 
     df["ma_10"] = df["Adj Close"].rolling(window=10).mean()
     df["ma_50"] = df["Adj Close"].rolling(window=50).mean()
     df = df.dropna()
-
-
 
     for i in range(len(df)-1):
         price = df["Adj Close"].iloc[i]
@@ -40,4 +37,8 @@ def Strategy() :
     print("Percent profit: %" + str(round((profit / 1000) * 100, 2)))
 
 
-print(Strategy())
+def Main():
+    ticker = input("What stock do you want to test? (e.g., AAPL): ")
+    Strategy(ticker)
+
+Main()
