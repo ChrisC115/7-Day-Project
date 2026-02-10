@@ -11,9 +11,10 @@ def Strategy(ticker) :
 
     df["ma_10"] = df["Adj Close"].rolling(window=10).mean()
     df["ma_50"] = df["Adj Close"].rolling(window=50).mean()
-    df["daily_return"] = (df["Adj Close"] / df["Adj Close"].iloc[-1])
     df = df.dropna()
-    print(df.std())
+    df["daily_return"] = df["Adj Close"].pct_change()
+
+
 
     for i in range(len(df)-1):
         price = df["Adj Close"].iloc[i]
@@ -34,7 +35,8 @@ def Strategy(ticker) :
     Total_Value = float(cash + (shares * current_price))
     profit = float(Total_Value - 1000)
     
-    print("Standard Deviation: " + str(df["Adj Close"].std()))
+    print(df["daily_return"])
+    print("Standard Deviation: " + str(print(df["daily_return"].std())))
     print("Final Value: $" + str(round(Total_Value, 2)))
     print("Total profit: $" + str(round(profit, 2)))
     print("Percent profit: %" + str(round((profit / 1000) * 100, 2)))
